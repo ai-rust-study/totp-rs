@@ -1,0 +1,8 @@
+totp:
+  validation_failed: "TOTP validation failed - Timestamp: {}, Expected: {}, Hash Algorithm: {:?}"
+  errors:
+    base32_decode: "Invalid Base32 encoding"
+    invalid_key_length: "Invalid key length"
+    invalid_digits: "Invalid number of digits"
+    invalid_time_step: "Invalid time step"
+    invalid_timestamp: "Invalid timestamp"

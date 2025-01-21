@@ -1,0 +1,8 @@
+totp:
+  validation_failed: "TOTP验证失败 - 时间戳: {}, 预期值: {}, 哈希算法: {:?}"
+  errors:
+    base32_decode: "无效的Base32编码"
+    invalid_key_length: "无效的密钥长度"
+    invalid_digits: "无效的位数"
+    invalid_time_step: "无效的时间步长"
+    invalid_timestamp: "无效的时间戳"
