@@ -19,13 +19,13 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-totp-rs = "0.1.0"
+totp-sm-rs = "0.1.0"
 ```
 
 ### Usage
 
 ```rust
-use totp_rs::utils::totp::totp::{generate_totp_code, TotpConfig, HashAlgorithm};
+use totp_sm_rs::utils::totp::totp::{generate_totp_code, TotpConfig, HashAlgorithm};
 
 // Generate TOTP with default settings (SHA1, 6 digits)
 let secret = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ";

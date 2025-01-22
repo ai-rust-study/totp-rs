@@ -21,13 +21,13 @@
 
 ```toml
 [dependencies]
-totp-rs = "0.1.0"
+totp-sm-rs = "0.1.0"
 ```
 
 ### 使用方法
 
 ```rust
-use totp_rs::utils::totp::totp::{generate_totp_code, TotpConfig, HashAlgorithm};
+use totp_sm_rs::utils::totp::totp::{generate_totp_code, TotpConfig, HashAlgorithm};
 
 // 使用默认配置生成TOTP（SHA1算法，6位验证码）
 let secret = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ";
