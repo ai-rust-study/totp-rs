@@ -1,4 +1,4 @@
-use totp::utils::totp::totp::{generate_totp_code, HashAlgorithm, TotpConfig, TotpError};
+use totp_sm_rs::utils::totp::totp::{generate_totp_code, HashAlgorithm, TotpConfig, TotpError};
 const RFC_TEST_VECTORS: [(&str, u64, &str, HashAlgorithm); 24] = [
     // SHA-1 测试向量
     ("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", 59, "94287082", HashAlgorithm::SHA1),
