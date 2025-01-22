@@ -2,6 +2,10 @@
 name = "totp-sm-rs"
 version = "0.1.0"
 edition = "2021"
+description = "A TOTP (Time-based One-Time Password) implementation in Rust with SM3 support"
+license = "MIT"
+authors = ["Bob Zhang"]
+repository = "https://github.com/ai-rust-study/totp-rs"
 
 [dependencies]
 base32 = "0.5"
