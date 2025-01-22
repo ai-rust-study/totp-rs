@@ -19,7 +19,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-totp-sm-rs = "0.1.0"
+totp-sm-rs = "0.1.1"
 ```
 
 ### Usage
