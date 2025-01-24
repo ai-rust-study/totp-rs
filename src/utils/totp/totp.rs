@@ -147,13 +147,15 @@ pub fn generate_totp_code(secret: &str, config: Option<TotpConfig>) -> Result<St
     if config.digits != 6 && config.digits != 8 {
         return Err(TotpError::InvalidKeyLength);
     }
-    // 解码Base32密钥并验证有效性
+    // CN: Base32密钥解码和有效性验证
+    // EN: Decode Base32 secret and validate
     let secret_bytes = match base32::decode(Rfc4648 { padding: false }, secret) {
         Some(bytes) if !bytes.is_empty() => bytes,
         _ => return Err(TotpError::Base32DecodeError),
     };
 
-    // 获取时间戳并应用时区偏移
+    // CN: 获取时间戳并应用时区偏移
+    // EN: Get timestamp and apply timezone offset
     let mut timestamp = match config.timestamp {
         Some(ts) => ts,
         None => Utc::now().timestamp() as u64,
@@ -163,10 +165,12 @@ pub fn generate_totp_code(secret: &str, config: Option<TotpConfig>) -> Result<St
     }
     let time = timestamp / config.time_step;
 
-    // 将时间戳转换为大端字节数组
+    // CN: 将时间戳转换为大端字节数组
+    // EN: Convert timestamp to big-endian byte array
     let time_bytes = time.to_be_bytes();
 
-    // 根据选择的算法创建HMAC实例并计算
+    // CN: 根据选择的算法创建HMAC实例并计算
+    // EN: Create and calculate HMAC instance based on selected algorithm
     let result = match config.hash_algorithm {
         HashAlgorithm::SHA1 => {
             let mut mac =
@@ -194,15 +198,18 @@ pub fn generate_totp_code(secret: &str, config: Option<TotpConfig>) -> Result<St
         }
     };
 
-    // 动态截取偏移量
+    // CN: 动态截取偏移量（根据RFC 6238标准）
+    // EN: Dynamic truncation offset (according to RFC 6238)
     let offset = (result[result.len() - 1] & 0xf) as usize;
 
-    // 验证密钥长度（至少16字节）
+    // CN: 验证密钥长度（至少16字节，符合安全要求）
+    // EN: Validate key length (minimum 16 bytes for security)
     if secret_bytes.len() < 16 {
         return Err(TotpError::InvalidKeyLength);
     }
 
-    // Calculate code according to RFC 6238
+    // CN: 根据RFC 6238标准计算最终的验证码
+    // EN: Calculate final code according to RFC 6238
     let code = ((result[offset] as u32 & 0x7f) << 24
         | (result[offset + 1] as u32 & 0xff) << 16
         | (result[offset + 2] as u32 & 0xff) << 8

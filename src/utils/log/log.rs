@@ -1,15 +1,34 @@
+use log::LevelFilter;
 use log4rs::append::file::FileAppender;
 use log4rs::config::{Appender, Config, Root};
 use log4rs::encode::pattern::PatternEncoder;
-use log::LevelFilter;
 use std::path::Path;
 
+/// CN: 日志错误类型枚举
+/// EN: Log error type enumeration
 #[derive(Debug)]
 pub enum LogError {
+    /// CN: 配置错误
+    /// EN: Configuration error
     ConfigError(String),
+    /// CN: IO错误
+    /// EN: IO error
     IoError(std::io::Error),
 }
 
+/// CN: 初始化日志记录器
+/// CN: 参数:
+/// CN: - log_path: 日志文件路径
+/// CN: 返回:
+/// CN: - Ok(()):  初始化成功
+/// CN: - Err(LogError): 初始化过程中的错误
+///
+/// EN: Initialize logger
+/// EN: Parameters:
+/// EN: - log_path: Log file path
+/// EN: Returns:
+/// EN: - Ok(()): Initialization successful
+/// EN: - Err(LogError): Errors during initialization
 pub fn init_logger(log_path: &str) -> Result<(), LogError> {
     let log_file = FileAppender::builder()
         .encoder(Box::new(PatternEncoder::new("{d} {l} - {m}{n}")))

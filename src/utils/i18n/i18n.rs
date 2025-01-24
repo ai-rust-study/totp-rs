@@ -4,28 +4,56 @@ use std::env;
 use std::fs;
 use std::path::Path;
 
+/// CN: 国际化配置结构体
+/// EN: Internationalization configuration struct
 #[derive(Debug, Deserialize)]
 struct I18nConfig {
+    /// CN: TOTP相关消息
+    /// EN: TOTP related messages
     totp: TotpMessages,
 }
 
+/// CN: TOTP消息结构体
+/// EN: TOTP messages struct
 #[derive(Debug, Deserialize)]
 struct TotpMessages {
+    /// CN: 验证失败消息
+    /// EN: Validation failed message
     validation_failed: String,
+    /// CN: 错误消息集合
+    /// EN: Error messages collection
     errors: TotpErrors,
 }
 
+/// CN: TOTP错误消息结构体
+/// EN: TOTP error messages struct
 #[derive(Debug, Deserialize)]
 struct TotpErrors {
+    /// CN: Base32解码错误消息
+    /// EN: Base32 decoding error message
     base32_decode: String,
+    /// CN: 密钥长度无效错误消息
+    /// EN: Invalid key length error message
     invalid_key_length: String,
+    /// CN: 验证码位数无效错误消息
+    /// EN: Invalid digits error message
     invalid_digits: String,
+    /// CN: 时间步长无效错误消息
+    /// EN: Invalid time step error message
     invalid_time_step: String,
+    /// CN: 时间戳无效错误消息
+    /// EN: Invalid timestamp error message
     invalid_timestamp: String,
 }
 
+/// CN: 国际化处理结构体
+/// EN: Internationalization handling struct
 pub struct I18n {
+    /// CN: 消息映射表
+    /// EN: Messages mapping table
     messages: HashMap<String, I18nConfig>,
+    /// CN: 当前语言环境
+    /// EN: Current locale
     current_locale: String,
 }
 
