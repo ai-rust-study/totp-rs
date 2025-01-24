@@ -64,8 +64,8 @@ impl Default for HashAlgorithm {
 /// EN: TOTP configuration struct for customizing TOTP generation parameters
 #[derive(Debug)]
 pub struct TotpConfig {
-    /// CN: 验证码位数（6或8位）
-    /// EN: Number of digits in the verification code (6 or 8)
+    /// CN: 验证码位数（4至10位）
+    /// EN: Number of digits in the verification code （4 to 10 digits）
     pub digits: u8,
     /// CN: 时间步长（秒）
     /// EN: Time step in seconds
@@ -144,7 +144,7 @@ impl fmt::Display for TotpError {
 /// EN: - Err(TotpError): Errors during generation
 pub fn generate_totp_code(secret: &str, config: Option<TotpConfig>) -> Result<String, TotpError> {
     let config = config.unwrap_or_default();
-    if config.digits != 6 && config.digits != 8 {
+    if config.digits < 4 && config.digits > 10 {
         return Err(TotpError::InvalidKeyLength);
     }
     // CN: Base32密钥解码和有效性验证
