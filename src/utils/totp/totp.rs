@@ -62,7 +62,7 @@ impl Default for HashAlgorithm {
 
 /// CN: TOTP配置结构体，用于自定义TOTP生成参数
 /// EN: TOTP configuration struct for customizing TOTP generation parameters
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct TotpConfig {
     /// CN: 验证码位数（4至10位）
     /// EN: Number of digits in the verification code （4 to 10 digits）

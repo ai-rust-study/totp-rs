@@ -195,6 +195,81 @@ fn test_edge_cases() {
     assert_eq!(code.len(), 8);
 }
 
+/// 测试不同位数验证码（4-10位）
+#[test]
+fn test_different_digits() {
+    let secret = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ";
+    let hash_algorithms = [
+        HashAlgorithm::SHA1,
+        HashAlgorithm::SHA256,
+        HashAlgorithm::SHA512,
+        HashAlgorithm::SM3,
+    ];
+
+    for digits in 4..=10 {
+        for &algorithm in &hash_algorithms {
+            let config = TotpConfig {
+                digits,
+                time_step: 30,
+                timestamp: Some(1234567890),
+                timezone_offset: None,
+                hash_algorithm: algorithm,
+            };
+            let code = generate_totp_code(secret, Some(config)).unwrap();
+            assert_eq!(
+                code.len() as u8,
+                digits,
+                "验证码长度不符合预期，算法：{}",
+                algorithm
+            );
+
+            let code_num: u32 = code.parse().unwrap();
+            assert!(
+                code_num < 10u32.pow(digits as u32),
+                "验证码超出范围，算法：{}",
+                algorithm
+            );
+        }
+    }
+}
+
+/// 性能测试：测试不同哈希算法的性能表现
+#[test]
+fn test_performance() {
+    use std::time::Instant;
+    let secret = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ";
+    let hash_algorithms = [
+        HashAlgorithm::SHA1,
+        HashAlgorithm::SHA256,
+        HashAlgorithm::SHA512,
+        HashAlgorithm::SM3,
+    ];
+    let iterations = 1000;
+
+    for &algorithm in &hash_algorithms {
+        let config = TotpConfig {
+            digits: 6,
+            time_step: 30,
+            timestamp: Some(1234567890),
+            timezone_offset: None,
+            hash_algorithm: algorithm,
+        };
+
+        let start = Instant::now();
+        for _ in 0..iterations {
+            let _ = generate_totp_code(secret, Some(config));
+        }
+        let duration = start.elapsed();
+        println!(
+            "算法 {} 生成 {} 个验证码耗时：{:?}，平均每个耗时：{:?}",
+            algorithm,
+            iterations,
+            duration,
+            duration / iterations as u32
+        );
+    }
+}
+
 /// 测试默认参数
 #[test]
 fn test_default_parameters() {
