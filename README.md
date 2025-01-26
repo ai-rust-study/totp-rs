@@ -44,6 +44,20 @@ let config = TotpConfig {
 let code = generate_totp_code(secret, Some(config)).unwrap();
 ```
 
+### 性能测试
+
+以下是不同哈希算法生成 1000 个验证码的性能对比：
+
+```
+性能测试结果 (越短越好)
+SHA1    481ns  ▌
+SHA256  970ns  █
+SHA512  1119ns █▏
+SM3     914ns  ▉
+```
+
+> 注：测试环境为 Apple M1 Pro，测试数据仅供参考。
+
 ### 许可证
 
 本项目采用双重许可证 - 你可以选择使用 [Apache License 2.0](LICENSE-APACHE) 或 [MIT License](LICENSE-MIT) 中的任意一个。
