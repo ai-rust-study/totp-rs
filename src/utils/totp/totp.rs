@@ -210,11 +210,11 @@ pub fn generate_totp_code(secret: &str, config: Option<TotpConfig>) -> Result<St
 
     // CN: 根据RFC 6238标准计算最终的验证码
     // EN: Calculate final code according to RFC 6238
-    let code = ((result[offset] as u32 & 0x7f) << 24
-        | (result[offset + 1] as u32 & 0xff) << 16
-        | (result[offset + 2] as u32 & 0xff) << 8
-        | (result[offset + 3] as u32 & 0xff))
-        % 10u32.pow(config.digits as u32);
+    let code = ((result[offset] as u64 & 0x7f) << 24
+        | (result[offset + 1] as u64 & 0xff) << 16
+        | (result[offset + 2] as u64 & 0xff) << 8
+        | (result[offset + 3] as u64 & 0xff))
+        % 10u64.pow(config.digits as u32);
 
     Ok(format!(
         "{:0digits$}",

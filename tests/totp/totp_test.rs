@@ -223,9 +223,9 @@ fn test_different_digits() {
                 algorithm
             );
 
-            let code_num: u32 = code.parse().unwrap();
+            let code_num: u64 = code.parse().unwrap();
             assert!(
-                code_num < 10u32.pow(digits as u32),
+                code_num < 10u64.pow(digits as u32),
                 "验证码超出范围，算法：{}",
                 algorithm
             );
