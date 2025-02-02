@@ -24,20 +24,46 @@ totp-sm-rs = "0.1.4"
 
 ### Usage
 
+Example of invoking a key with the recommended key length of 16 bits as per RFC 6238 standard.
+
 ```rust
 use totp_sm_rs::utils::totp::totp::{generate_totp_code, TotpConfig, HashAlgorithm};
 
-// Generate TOTP with default settings (SHA1, 6 digits)
+// 使用默认配置生成TOTP（SHA1算法，6位验证码）
 let secret = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ";
 let code = generate_totp_code(secret, None).unwrap();
 
-// Generate TOTP with custom configuration
+// 使用自定义配置生成TOTP
 let config = TotpConfig {
     digits: 8,
     time_step: 30,
     timestamp: Some(1234567890),
     timezone_offset: None,
-    hash_algorithm: HashAlgorithm::SHA256,
+    hash_algorithm: HashAlgorithm::SHA1,
+    is_check_security: true
+
+};
+let code = generate_totp_code(secret, Some(config)).unwrap();
+```
+
+An example of invoking a key that does not comply with the recommended key length of 16 bits as per RFC 6238 standard, such as GitHub's TOTP.
+
+```rust
+use totp_sm_rs::utils::totp::totp::{generate_totp_code, TotpConfig, HashAlgorithm};
+
+// 使用默认配置生成TOTP（SHA1算法，6位验证码）
+let secret = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ";
+let code = generate_totp_code(secret, None).unwrap();
+
+// 使用自定义配置生成TOTP
+let config = TotpConfig {
+    digits: 8,
+    time_step: 30,
+    timestamp: Some(1234567890),
+    timezone_offset: None,
+    hash_algorithm: HashAlgorithm::SHA1,
+    is_check_security: false
+
 };
 let code = generate_totp_code(secret, Some(config)).unwrap();
 ```

@@ -26,6 +26,8 @@ totp-sm-rs = "0.1.4"
 
 ### 使用方法
 
+符合 RFC 6238 标准中推荐密钥长度为 16 位的密钥调用示例
+
 ```rust
 use totp_sm_rs::utils::totp::totp::{generate_totp_code, TotpConfig, HashAlgorithm};
 
@@ -39,7 +41,31 @@ let config = TotpConfig {
     time_step: 30,
     timestamp: Some(1234567890),
     timezone_offset: None,
-    hash_algorithm: HashAlgorithm::SHA256,
+    hash_algorithm: HashAlgorithm::SHA1,
+    is_check_security: true
+
+};
+let code = generate_totp_code(secret, Some(config)).unwrap();
+```
+
+不符合 RFC 6238 标准中推荐密钥长度为 16 位的密钥调用示例，如 GitHub 的 TOTP
+
+```rust
+use totp_sm_rs::utils::totp::totp::{generate_totp_code, TotpConfig, HashAlgorithm};
+
+// 使用默认配置生成TOTP（SHA1算法，6位验证码）
+let secret = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ";
+let code = generate_totp_code(secret, None).unwrap();
+
+// 使用自定义配置生成TOTP
+let config = TotpConfig {
+    digits: 8,
+    time_step: 30,
+    timestamp: Some(1234567890),
+    timezone_offset: None,
+    hash_algorithm: HashAlgorithm::SHA1,
+    is_check_security: false
+
 };
 let code = generate_totp_code(secret, Some(config)).unwrap();
 ```

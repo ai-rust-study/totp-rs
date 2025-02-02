@@ -1,11 +1,11 @@
 [package]
 name = "totp-sm-rs"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 description = "A TOTP (Time-based One-Time Password) implementation in Rust with SM3 support"
 license = "MIT"
 authors = ["Bob Zhang"]
-repository = "https://github.com/ai-rust-study/totp-rs"
+repository = "https://github.com/ai-rust-study/totp-sm-rs"
 
 [dependencies]
 base32 = "0.5"
@@ -20,7 +20,3 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde_yaml = "0.9"
 chrono = "0.4"
-
-[lib]
-name = "totp_sm_rs"
-path = "src/lib.rs"
