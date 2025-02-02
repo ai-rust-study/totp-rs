@@ -42,7 +42,8 @@ fn test_rfc_test_vectors() {
             time_step: 30,
             timestamp: Some(timestamp),
             timezone_offset: None,
-            hash_algorithm, // 使用字段简写语法
+            hash_algorithm,
+            is_check_security: true,
         };
 
         let result = generate_totp_code(secret, Some(config));
@@ -74,6 +75,7 @@ fn test_invalid_base32() {
             timestamp: None,
             timezone_offset: None,
             hash_algorithm: HashAlgorithm::SHA1,
+            is_check_security: true,
         };
         let result = generate_totp_code(secret, Some(config));
         assert!(
@@ -94,6 +96,7 @@ fn test_key_length_validation() {
         timestamp: None,
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let result = generate_totp_code(short_secret, Some(config));
     assert!(matches!(result, Err(TotpError::InvalidKeyLength)));
@@ -109,6 +112,7 @@ fn test_code_length() {
         timestamp: Some(1234567890),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let code = generate_totp_code(secret, Some(config)).unwrap();
     assert_eq!(code.len(), 8);
@@ -124,6 +128,7 @@ fn test_code_range() {
         timestamp: Some(1234567890),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let code = generate_totp_code(secret, Some(config)).unwrap();
     let code_num: u32 = code.parse().unwrap();
@@ -142,6 +147,7 @@ fn test_time_window_change() {
         timestamp: Some(1234567890),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let code1 = generate_totp_code(secret, Some(config1)).unwrap();
 
@@ -151,6 +157,7 @@ fn test_time_window_change() {
         timestamp: Some(1234567895),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let code2 = generate_totp_code(secret, Some(config2)).unwrap();
     assert_eq!(code1, code2);
@@ -162,6 +169,7 @@ fn test_time_window_change() {
         timestamp: Some(1234567920),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let code3 = generate_totp_code(secret, Some(config3)).unwrap();
     assert_ne!(code1, code3);
@@ -179,6 +187,7 @@ fn test_edge_cases() {
         timestamp: Some(0),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let code = generate_totp_code(secret, Some(config1)).unwrap();
     assert_eq!(code.len(), 8);
@@ -190,6 +199,7 @@ fn test_edge_cases() {
         timestamp: Some(i64::MAX),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let code = generate_totp_code(secret, Some(config2)).unwrap();
     assert_eq!(code.len(), 8);
@@ -198,7 +208,8 @@ fn test_edge_cases() {
 /// 测试不同位数验证码（4-10位）
 #[test]
 fn test_different_digits() {
-    let secret = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ";
+    // NRAMEGZB77J4KYKK
+    let secret = "GEZDGNBVGY3TQOJQ";
     let hash_algorithms = [
         HashAlgorithm::SHA1,
         HashAlgorithm::SHA256,
@@ -211,9 +222,10 @@ fn test_different_digits() {
             let config = TotpConfig {
                 digits,
                 time_step: 30,
-                timestamp: Some(1234567890),
+                timestamp: None,
                 timezone_offset: None,
                 hash_algorithm: algorithm,
+                is_check_security: false,
             };
             let code = generate_totp_code(secret, Some(config)).unwrap();
             assert_eq!(
@@ -253,6 +265,7 @@ fn test_performance() {
             timestamp: Some(1234567890),
             timezone_offset: None,
             hash_algorithm: algorithm,
+            is_check_security: true,
         };
 
         let start = Instant::now();
@@ -282,6 +295,7 @@ fn test_default_parameters() {
         timestamp: Some(1234567890),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let code = generate_totp_code(secret, Some(config)).unwrap();
     assert_eq!(code.len(), 6);
@@ -293,6 +307,7 @@ fn test_default_parameters() {
         timestamp: Some(1234567890),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
+        is_check_security: true,
     };
     let code = generate_totp_code(secret, Some(config)).unwrap();
     assert_eq!(code.len(), 8);

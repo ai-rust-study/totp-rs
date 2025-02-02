@@ -79,6 +79,10 @@ pub struct TotpConfig {
     /// CN: 使用的哈希算法
     /// EN: Hash algorithm to use
     pub hash_algorithm: HashAlgorithm,
+
+    /// CN: 是否检查安全性
+    /// EN： Check security
+    pub is_check_security: bool,
 }
 
 /// CN: 为TotpConfig实现默认值特征
@@ -91,6 +95,7 @@ impl Default for TotpConfig {
             timestamp: None,
             timezone_offset: None,
             hash_algorithm: HashAlgorithm::default(),
+            is_check_security: false,
         }
     }
 }
@@ -204,7 +209,7 @@ pub fn generate_totp_code(secret: &str, config: Option<TotpConfig>) -> Result<St
 
     // CN: 验证密钥长度（至少16字节，符合安全要求）
     // EN: Validate key length (minimum 16 bytes for security)
-    if secret_bytes.len() < 16 {
+    if config.is_check_security && secret_bytes.len() < 16 {
         return Err(TotpError::InvalidKeyLength);
     }
 
