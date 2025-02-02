@@ -1,5 +1,5 @@
 use totp_sm_rs::utils::totp::totp::{generate_totp_code, HashAlgorithm, TotpConfig, TotpError};
-const RFC_TEST_VECTORS: [(&str, u64, &str, HashAlgorithm); 24] = [
+const RFC_TEST_VECTORS: [(&str, i64, &str, HashAlgorithm); 24] = [
     // SHA-1 测试向量
     ("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", 59, "94287082", HashAlgorithm::SHA1),
     ("GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ", 1111111109, "07081804", HashAlgorithm::SHA1),
@@ -187,7 +187,7 @@ fn test_edge_cases() {
     let config2 = TotpConfig {
         digits: 8,
         time_step: 30,
-        timestamp: Some(u64::MAX),
+        timestamp: Some(i64::MAX),
         timezone_offset: None,
         hash_algorithm: HashAlgorithm::SHA1,
     };

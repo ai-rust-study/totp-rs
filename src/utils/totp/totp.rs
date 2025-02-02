@@ -69,13 +69,13 @@ pub struct TotpConfig {
     pub digits: u8,
     /// CN: 时间步长（秒）
     /// EN: Time step in seconds
-    pub time_step: u64,
+    pub time_step: u8,
     /// CN: 可选的自定义时间戳
     /// EN: Optional custom timestamp
-    pub timestamp: Option<u64>,
+    pub timestamp: Option<i64>,
     /// CN: 可选的时区偏移（秒）
     /// EN: Optional timezone offset in seconds
-    pub timezone_offset: Option<i32>,
+    pub timezone_offset: Option<i64>,
     /// CN: 使用的哈希算法
     /// EN: Hash algorithm to use
     pub hash_algorithm: HashAlgorithm,
@@ -158,12 +158,12 @@ pub fn generate_totp_code(secret: &str, config: Option<TotpConfig>) -> Result<St
     // EN: Get timestamp and apply timezone offset
     let mut timestamp = match config.timestamp {
         Some(ts) => ts,
-        None => Utc::now().timestamp() as u64,
+        None => Utc::now().timestamp(),
     };
     if let Some(offset) = config.timezone_offset {
-        timestamp = timestamp.saturating_add_signed(offset as i64);
+        timestamp = timestamp.saturating_add(offset);
     }
-    let time = timestamp / config.time_step;
+    let time = timestamp / config.time_step as i64;
 
     // CN: 将时间戳转换为大端字节数组
     // EN: Convert timestamp to big-endian byte array
