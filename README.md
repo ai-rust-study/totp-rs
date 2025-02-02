@@ -21,7 +21,7 @@
 
 ```toml
 [dependencies]
-totp-sm-rs = "0.1.3"
+totp-sm-rs = "0.1.4"
 ```
 
 ### 使用方法

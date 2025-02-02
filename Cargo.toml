@@ -1,6 +1,6 @@
 [package]
 name = "totp-sm-rs"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 description = "A TOTP (Time-based One-Time Password) implementation in Rust with SM3 support"
 license = "MIT"

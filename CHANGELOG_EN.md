@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.4] - 2024-02-02
+
+### Added
+
+- Added security check toggle for RFC 6238 key length
+
 ## [0.1.2] - 2024-01-22
 
 ### Added
